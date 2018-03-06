@@ -15,17 +15,22 @@ public class CountDataCollector {
         final long a = System.nanoTime();
 
         final JavaRDD<CassandraRow> dc = javaFunctions.cassandraTable("activity", "data_collector");
-        System.out.println("data_collector = " + dc.count());
-
+        final long data_collector = dc.count();
         final long b = System.nanoTime();
-
-        final JavaRDD<CassandraRow> dc2 = javaFunctions.cassandraTable("activity", "data_collector2");
-        System.out.println("data_collector2 = " + dc2.count());
-
+//        final JavaRDD<CassandraRow> dc2 = javaFunctions.cassandraTable("activity", "data_collector2");
+//        final long data_collector2 = dc2.count();
         final long c = System.nanoTime();
+        final JavaRDD<CassandraRow> hag = javaFunctions.cassandraTable("activity", "hourly_aggregator");
+        final long hourly_aggregator = hag.count();
+        final long d = System.nanoTime();
+        final JavaRDD<CassandraRow> dag = javaFunctions.cassandraTable("activity", "daily_aggregator");
+        final long daily_aggregator = dag.count();
+        final long e = System.nanoTime();
 
-        System.out.println("a2b=["+nano2seconds(b-a)+"] b2c=["+nano2seconds(c-b)+"]");
-
+        System.out.println("data_collector size=["+data_collector+"] time=["+nano2seconds(b-a)+"]");
+//        System.out.println("data_collector2 size=["+data_collector2+"] time=["+nano2seconds(c-b)+"]");
+        System.out.println("hourly_aggregator size=["+hourly_aggregator+"] time=["+nano2seconds(d-c)+"]");
+        System.out.println("daily_aggregator size=["+daily_aggregator+"] time=["+nano2seconds(e-d)+"]");
 
 
     }
