@@ -1,7 +1,6 @@
 package analytics.query.simple;
 
 import com.datastax.driver.core.*;
-import javafx.util.Pair;
 
 import java.io.Closeable;
 import java.net.InetAddress;
@@ -56,7 +55,7 @@ public class TxnCountPerMinute implements Closeable {
      * @throws InterruptedException well don't interrupt me! :-)
      * @throws MultiProblemException in case some or all of the queries to Cassandra failed you will have here list of problems
      */
-    public List<Pair<Date, Long>> execute(ContextFields context, TimeFields time) throws InterruptedException, MultiProblemException {
+    public List<Map.Entry<Date, Long>> execute(ContextFields context, TimeFields time) throws InterruptedException, MultiProblemException {
 
         final ArrayList<Worker> workers = new ArrayList<>();
         final long[] counters = new long[60];
@@ -96,8 +95,8 @@ public class TxnCountPerMinute implements Closeable {
      * @param counters as was calculated
      * @return the list of pairs
      */
-    private static List<Pair<Date, Long>> convertToPairs(TimeFields time, long[] counters) {
-        final List<Pair<Date, Long>> result = new ArrayList<>();
+    private static List<Map.Entry<Date, Long>> convertToPairs(TimeFields time, long[] counters) {
+        final List<Map.Entry<Date, Long>> result = new ArrayList<>();
 
         Calendar c = Calendar.getInstance();
         c.set(time.year, time.month-1, time.day, time.hour, time.minute);
@@ -105,13 +104,13 @@ public class TxnCountPerMinute implements Closeable {
 
         //previous
         for (int i = time.minute ; i<60 ; i++) {
-            result.add(new Pair<>(c.getTime(), counters[i]));
+            result.add(new AbstractMap.SimpleImmutableEntry<>(c.getTime(), counters[i]));
             c.add(Calendar.MINUTE, 1);
         }
 
         //current
         for (int j=0 ; j<time.minute ; j++) {
-            result.add(new Pair<>(c.getTime(), counters[j]));
+            result.add(new AbstractMap.SimpleImmutableEntry<>(c.getTime(), counters[j]));
             c.add(Calendar.MINUTE, 1);
         }
         return result;
@@ -119,7 +118,10 @@ public class TxnCountPerMinute implements Closeable {
 
 
     private static Cluster initCluster(Collection<InetAddress> hosts) {
-        return Cluster.builder().addContactPoints(hosts).build();
+        return Cluster.builder()
+                .addContactPoints(hosts)
+                .withSocketOptions(new SocketOptions().setConnectTimeoutMillis(30_000))
+                .build();
     }
 
     /**

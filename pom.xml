@@ -9,11 +9,54 @@
     <version>1.0-SNAPSHOT</version>
 
     <dependencies>
-                <dependency>
-            <groupId>com.datastax.cassandra</groupId>
-            <artifactId>cassandra-driver-core</artifactId>
-            <version>3.1.1</version>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-core -->
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-core_2.10</artifactId>
+            <version>2.2.1</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-sql -->
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-sql_2.10</artifactId>
+            <version>2.2.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.datastax.spark</groupId>
+            <artifactId>spark-cassandra-connector_2.10</artifactId>
+            <version>2.0.7</version>
+        </dependency>
+        <dependency>
+            <groupId>com.datastax.spark</groupId>
+            <artifactId>spark-cassandra-connector-java_2.10</artifactId>
+            <version>1.6.0-M1</version>
+        </dependency>
+
+
+
+
+
+        <!-- https://mvnrepository.com/artifact/com.datastax.spark/spark-cassandra-connector -->
+        <!--<dependency>-->
+        <!--<groupId>com.datastax.spark</groupId>-->
+        <!--<artifactId>spark-cassandra-connector_2.11</artifactId>-->
+        <!--<version>2.0.6</version>-->
+        <!--</dependency>-->
+
+        <!-- https://mvnrepository.com/artifact/com.datastax.spark/spark-cassandra-connector-java -->
+        <!--<dependency>-->
+        <!--<groupId>com.datastax.spark</groupId>-->
+        <!--<artifactId>spark-cassandra-connector-java_2.11</artifactId>-->
+        <!--<version>1.5.2</version>-->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+        <!--<groupId>com.datastax.cassandra</groupId>-->
+        <!--<artifactId>cassandra-driver-core</artifactId>-->
+        <!--<version>3.1.1</version>-->
+        <!--</dependency>-->
 
     </dependencies>
 
@@ -41,6 +84,8 @@
                 </descriptorRefs>
             </configuration>
         </plugin>
+
+
     </plugins></build>
 
 </project>
