@@ -15,7 +15,4 @@ public class SparkShared {
         return new SparkContext(conf);
     }
 
-    public static SparkContextJavaFunctions createJavaFunctions(String appName) {
-        return CassandraJavaUtil.javaFunctions(createSparkContext(appName));
-    }
 }

@@ -21,7 +21,7 @@ public class ConvertAndCopyDataCollector {
     private static final String APP_NAME = "Copy from data_collector2 to data_collector and map user to organization";
 
     public static void main(String[] args) {
-        final SparkContextJavaFunctions javaFunctions = SparkShared.createJavaFunctions(APP_NAME);
+        final SparkContextJavaFunctions javaFunctions = CassandraJavaUtil.javaFunctions(SparkShared.createSparkContext(APP_NAME));
         final CassandraTableScanJavaRDD<CassandraRow> source = javaFunctions.cassandraTable("activity", "data_collector2");
         final JavaRDD<DataCollector> target = source.map(new Old2NewMapper());
         CassandraJavaUtil.javaFunctions(target).writerBuilder("activity", "data_collector", CassandraJavaUtil.mapToRow(DataCollector.class)).saveToCassandra();
