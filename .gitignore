@@ -3,6 +3,7 @@ ehthumbs.db
 Desktop.ini
 .DS_Store
 
+target/
 */target/*
 */target/**
 .idea/
